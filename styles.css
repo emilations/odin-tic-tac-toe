@@ -34,6 +34,13 @@
 }
 
 .board {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -62,10 +69,6 @@
 
 .player-mark {
   font-size: 3rem;
-}
-
-.hidden {
-  display: none;
 }
 
 .name-input::placeholder {
@@ -99,6 +102,7 @@
 .start {
   padding: 0.3rem 1rem;
   font-size: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 h5 {
@@ -107,4 +111,9 @@ h5 {
 
 h1 {
   font-size: 2.4rem;
+  padding-bottom: 1rem;
+}
+
+.hidden {
+  display: none;
 }

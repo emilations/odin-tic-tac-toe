@@ -13,24 +13,32 @@
   <div class="container">
     <div class="game-UI">
       <div class="intro">
-          <h1 class="hero right">Tic Tac Toe</h1>
-          <h5 class="sub right">Choose a name</h5>
-          <label class="left"for="playerOne">X</label>
-          <input class="name-input right" type="text" id="playerOne"  placeholder="Player One" autocomplete="off">
-          <label class="left" for="playerOne">O</label>
-          <input class="name-input right" type="text" id="playerTwo" placeholder="Player Two" autocomplete="off">
-          <button class="start right">Start</button>
+        <h1 class="hero right">Tic Tac Toe</h1>
+        <h5 class="sub right">Choose a name</h5>
+        <label class="left"for="playerOne">X</label>
+        <input class="name-input right" type="text" id="playerOne"  placeholder="Player One" autocomplete="off">
+        <label class="left" for="playerOne">O</label>
+        <input class="name-input right" type="text" id="playerTwo" placeholder="Player Two" autocomplete="off">
+        <button class="start right">Start</button>
       </div>
       <div class="board hidden">
-        <div class="grid player-mark disable-select" data-index="0"></div>
-        <div class="grid player-mark disable-select" data-index="1"></div>
-        <div class="grid player-mark disable-select" data-index="2"></div>
-        <div class="grid player-mark disable-select" data-index="3"></div>
-        <div class="grid player-mark disable-select" data-index="4"></div>
-        <div class="grid player-mark disable-select" data-index="5"></div>
-        <div class="grid player-mark disable-select" data-index="6"></div>
-        <div class="grid player-mark disable-select" data-index="7"></div>
-        <div class="grid player-mark disable-select" data-index="8"></div>
+        <div class="message">
+          Player XXX turn
+        </div>
+        <div class="grid-container">
+          <div class="grid player-mark disable-select" data-index="0"></div>
+          <div class="grid player-mark disable-select" data-index="1"></div>
+          <div class="grid player-mark disable-select" data-index="2"></div>
+          <div class="grid player-mark disable-select" data-index="3"></div>
+          <div class="grid player-mark disable-select" data-index="4"></div>
+          <div class="grid player-mark disable-select" data-index="5"></div>
+          <div class="grid player-mark disable-select" data-index="6"></div>
+          <div class="grid player-mark disable-select" data-index="7"></div>
+          <div class="grid player-mark disable-select" data-index="8"></div>
+        </div>
+      </div>
+      <div class="outro hidden">
+        Results
       </div>
     </div>
   </div>
