@@ -51,6 +51,7 @@ let game = (function () {
     interface.displayShow("board");
     interface.displayUpdate("clear");
     interface.displayUpdate(
+      "update",
       "message",
       `${gameboard.players("read")[currentPlayerIndex].name} turn`
     );
@@ -63,6 +64,7 @@ let game = (function () {
     interface.displayUpdate("update", position, token);
     currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
     interface.displayUpdate(
+      "update",
       "message",
       `${gameboard.players("read")[currentPlayerIndex].name} turn`
     );
@@ -92,7 +94,7 @@ let interface = (function () {
     outro = document.querySelector(".outro");
     grid = document.querySelectorAll(".grid");
     startButton = document.querySelector(".start-button");
-    message = document.querySelector(".message p");
+    message = document.querySelector(".message");
     returnButton = document.querySelector(".return-button");
   };
 
@@ -109,13 +111,20 @@ let interface = (function () {
   let displayUpdate = function (action, position, content) {
     if (action == "update") {
       if (position == "message") {
-        message.textContent = content;
+        message.innerHTML = ""
+        let element = document.createElement("p");
+        element.classList.add("transition");
+        element.textContent = content;
+        message.appendChild(element)
       } else {
-        grid[position].textContent = content;
+        grid[position].childNodes[0].textContent = content;
+        grid[position].childNodes[0].classList.add("transition");
       }
     } else if (action == "clear") {
       for (let i = 0; i < gameboard.read().length; i++) {
-        grid[i].textContent = "";
+        let element = document.createElement("p");
+        grid[i].innerHTML = '';
+        grid[i].appendChild(element)
       }
     }
   };
