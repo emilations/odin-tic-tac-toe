@@ -36,9 +36,11 @@ let gameboard = (function () {
 // game module
 let game = (function () {
   let currentPlayerIndex;
+  let winner;
 
   let init = function () {
     currentPlayerIndex = 0;
+    winner = undefined; 
     gameboard.init();
     gameboard.players("clear");
     interface.cacheDOM();
@@ -62,13 +64,40 @@ let game = (function () {
     let token = gameboard.players("read")[currentPlayerIndex].token;
     gameboard.update(position, token);
     interface.displayUpdate("update", position, token);
+    checkWinner()
     currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
-    interface.displayUpdate(
+    if (game.winner) {
+      interface.displayUpdate(
+        "update",
+        "message",
+        `Winner is ${gameboard.players("read")[currentPlayerIndex].name}`
+      );
+      interface.removeListener("allGrid");
+      return
+    }
+      interface.displayUpdate(
       "update",
       "message",
       `${gameboard.players("read")[currentPlayerIndex].name} turn`
     );
     interface.removeListener(position);
+  };
+
+  let checkWinner = function () {
+    let board = gameboard.read();
+    let winnerMap = ["123", "456", "789", "147", "258", "368", "159", "753"];
+    for (let index in winnerMap){
+      let first = board[winnerMap[index][0]-1]
+      let second = board[winnerMap[index][1]-1]
+      let third = board[winnerMap[index][2]-1]
+      if (first == "" || second == "" || third == "") {
+        continue;
+      }
+      if (first == second && second == third){
+        game.winner = gameboard.players("read")[currentPlayerIndex].name
+        return
+      }
+    }
   };
 
   return {
@@ -105,6 +134,10 @@ let interface = (function () {
   };
 
   let removeListener = function (position) {
+    if (position == "allGrid"){
+      grid.forEach((elem) => elem.removeEventListener("click", game.round))
+      return
+    }
     grid[position].removeEventListener("click", game.round);
   };
 
