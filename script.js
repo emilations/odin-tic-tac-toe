@@ -41,13 +41,17 @@ let game = (function () {
   let init = function () {
     currentPlayerIndex = 0;
     winner = undefined;
-    console.log(winner) 
     gameboard.init();
     gameboard.players("clear");
     interface.cacheDOM();
     interface.addListener();
     interface.displayShow("intro");
   };
+
+  let reset = function () {
+    init()
+    start()
+  }
 
   let start = function () {
     interface.getNames();
@@ -104,6 +108,7 @@ let game = (function () {
 
   return {
     init,
+    reset,
     start,
     round,
   };
@@ -127,12 +132,14 @@ let interface = (function () {
     startButton = document.querySelector(".start-button");
     message = document.querySelector(".message");
     returnButton = document.querySelector(".return-button");
+    resetButoon = document.querySelector(".reset-button")
   };
 
   let addListener = function () {
     grid.forEach((elem) => elem.addEventListener("click", game.round));
     startButton.addEventListener("click", game.start);
     returnButton.addEventListener("click", game.init);
+    resetButoon.addEventListener("click", game.reset)
   };
 
   let removeListener = function (position) {
