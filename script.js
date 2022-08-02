@@ -36,11 +36,12 @@ let gameboard = (function () {
 // game module
 let game = (function () {
   let currentPlayerIndex;
-  let winner;
+  let winner = undefined;
 
   let init = function () {
     currentPlayerIndex = 0;
-    winner = undefined; 
+    winner = undefined;
+    console.log(winner) 
     gameboard.init();
     gameboard.players("clear");
     interface.cacheDOM();
@@ -64,9 +65,9 @@ let game = (function () {
     let token = gameboard.players("read")[currentPlayerIndex].token;
     gameboard.update(position, token);
     interface.displayUpdate("update", position, token);
+    console.log(winner)
     checkWinner()
-    currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
-    if (game.winner) {
+    if (winner) {
       interface.displayUpdate(
         "update",
         "message",
@@ -80,6 +81,7 @@ let game = (function () {
       "message",
       `${gameboard.players("read")[currentPlayerIndex].name} turn`
     );
+    currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
     interface.removeListener(position);
   };
 
@@ -94,7 +96,7 @@ let game = (function () {
         continue;
       }
       if (first == second && second == third){
-        game.winner = gameboard.players("read")[currentPlayerIndex].name
+        winner = gameboard.players("read")[currentPlayerIndex].name
         return
       }
     }
@@ -136,6 +138,7 @@ let interface = (function () {
   let removeListener = function (position) {
     if (position == "allGrid"){
       grid.forEach((elem) => elem.removeEventListener("click", game.round))
+      console.log("removed all listners")
       return
     }
     grid[position].removeEventListener("click", game.round);
