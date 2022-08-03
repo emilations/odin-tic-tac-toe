@@ -158,7 +158,7 @@ let interface = (function () {
         element.textContent = content;
         message.appendChild(element);
       } else if (position == "result") {
-        result.textContent = `The winner is ${content}`;
+        result.textContent = `${content} won`;
       } else {
         grid[position].childNodes[0].textContent = content;
         grid[position].childNodes[0].classList.add("transition");
