@@ -88,8 +88,8 @@ let game = (function () {
   };
 
   let checkWinner = function () {
-    let board = gameboard.read();
     let winnerMap = ["123", "456", "789", "147", "258", "368", "159", "753"];
+    let board = gameboard.read();
     for (let index in winnerMap) {
       let first = board[winnerMap[index][0] - 1];
       let second = board[winnerMap[index][1] - 1];
@@ -101,6 +101,10 @@ let game = (function () {
         winner = gameboard.players("read")[currentPlayerIndex].name;
         return;
       }
+    }
+    if(board.every((elem) => elem !== "")){
+      winner = "none";
+      return;
     }
   };
 
@@ -158,7 +162,11 @@ let interface = (function () {
         element.textContent = content;
         message.appendChild(element);
       } else if (position == "result") {
+        if (content == "none") {
+          result.textContent = `It is a tie`;
+        } else {
         result.textContent = `${content} is the winner`;
+        }
       } else {
         grid[position].childNodes[0].textContent = content;
         grid[position].childNodes[0].classList.add("transition");
