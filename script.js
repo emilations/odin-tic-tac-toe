@@ -49,9 +49,9 @@ let game = (function () {
   };
 
   let reset = function () {
-    init()
-    start()
-  }
+    init();
+    start();
+  };
 
   let start = function () {
     interface.getNames();
@@ -69,39 +69,37 @@ let game = (function () {
     let token = gameboard.players("read")[currentPlayerIndex].token;
     gameboard.update(position, token);
     interface.displayUpdate("update", position, token);
-    console.log(winner)
-    checkWinner()
+    checkWinner();
     if (winner) {
-      interface.displayUpdate(
-        "update",
-        "message",
-        `Winner is ${gameboard.players("read")[currentPlayerIndex].name}`
-      );
       interface.removeListener("allGrid");
-      return
+      setTimeout(function () {
+        interface.displayUpdate("update", "result", winner);
+        interface.displayShow("outro");
+      }, 1000);
+      return;
     }
-      interface.displayUpdate(
+    currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
+    interface.displayUpdate(
       "update",
       "message",
       `${gameboard.players("read")[currentPlayerIndex].name} turn`
     );
-    currentPlayerIndex = currentPlayerIndex == 0 ? 1 : 0;
     interface.removeListener(position);
   };
 
   let checkWinner = function () {
     let board = gameboard.read();
     let winnerMap = ["123", "456", "789", "147", "258", "368", "159", "753"];
-    for (let index in winnerMap){
-      let first = board[winnerMap[index][0]-1]
-      let second = board[winnerMap[index][1]-1]
-      let third = board[winnerMap[index][2]-1]
+    for (let index in winnerMap) {
+      let first = board[winnerMap[index][0] - 1];
+      let second = board[winnerMap[index][1] - 1];
+      let third = board[winnerMap[index][2] - 1];
       if (first == "" || second == "" || third == "") {
         continue;
       }
-      if (first == second && second == third){
-        winner = gameboard.players("read")[currentPlayerIndex].name
-        return
+      if (first == second && second == third) {
+        winner = gameboard.players("read")[currentPlayerIndex].name;
+        return;
       }
     }
   };
@@ -131,22 +129,22 @@ let interface = (function () {
     grid = document.querySelectorAll(".grid");
     startButton = document.querySelector(".start-button");
     message = document.querySelector(".message");
-    returnButton = document.querySelector(".return-button");
-    resetButoon = document.querySelector(".reset-button")
+    returnButton = document.querySelectorAll(".return-button");
+    resetButoon = document.querySelectorAll(".reset-button");
+    result = document.querySelector(".results h2");
   };
 
   let addListener = function () {
     grid.forEach((elem) => elem.addEventListener("click", game.round));
     startButton.addEventListener("click", game.start);
-    returnButton.addEventListener("click", game.init);
-    resetButoon.addEventListener("click", game.reset)
+    returnButton.forEach((elem) => elem.addEventListener("click", game.init));
+    resetButoon.forEach((elem) => elem.addEventListener("click", game.reset));
   };
 
   let removeListener = function (position) {
-    if (position == "allGrid"){
-      grid.forEach((elem) => elem.removeEventListener("click", game.round))
-      console.log("removed all listners")
-      return
+    if (position == "allGrid") {
+      grid.forEach((elem) => elem.removeEventListener("click", game.round));
+      return;
     }
     grid[position].removeEventListener("click", game.round);
   };
@@ -154,11 +152,13 @@ let interface = (function () {
   let displayUpdate = function (action, position, content) {
     if (action == "update") {
       if (position == "message") {
-        message.innerHTML = ""
+        message.innerHTML = "";
         let element = document.createElement("p");
         element.classList.add("transition");
         element.textContent = content;
-        message.appendChild(element)
+        message.appendChild(element);
+      } else if (position == "result") {
+        result.textContent = `The winner is ${content}`;
       } else {
         grid[position].childNodes[0].textContent = content;
         grid[position].childNodes[0].classList.add("transition");
@@ -166,8 +166,8 @@ let interface = (function () {
     } else if (action == "clear") {
       for (let i = 0; i < gameboard.read().length; i++) {
         let element = document.createElement("p");
-        grid[i].innerHTML = '';
-        grid[i].appendChild(element)
+        grid[i].innerHTML = "";
+        grid[i].appendChild(element);
       }
     }
   };
@@ -175,6 +175,7 @@ let interface = (function () {
   let displayShow = function (ui) {
     if (ui == "intro") {
       intro.classList.remove("hidden");
+      intro.classList.add("transition");
       board.classList.add("hidden");
       outro.classList.add("hidden");
     } else if (ui == "board") {
@@ -183,6 +184,7 @@ let interface = (function () {
       outro.classList.add("hidden");
     } else if (ui == "outro") {
       outro.classList.remove("hidden");
+      outro.classList.add("transition");
       board.classList.add("hidden");
       intro.classList.add("hidden");
     }

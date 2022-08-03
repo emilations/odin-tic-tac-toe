@@ -120,14 +120,24 @@ h1 {
   padding-bottom: 1rem;
 }
 
-.hidden {
-  display: none;
-}
-
 .message p{
   font-weight: 500;
   font-size: large;
 }
+
+.outro {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
 
 /* Credits to https://github.com/Pety99/tic-tac-toe for the animation*/
 .transition {
